@@ -7,36 +7,27 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=node
 
 ifeq ($(CONFIG_NODEJS_20),y)
-PKG_VERSION:=20.19.0
+PKG_VERSION:=20.19.2
 PKG_RELEASE:=1
-PKG_HASH:=658572c4a0f546b0c07ea64d53b396a19c425ff183924872cb34712a17e15332
+PKG_HASH:=eaf8800608ffbcae7665beb4776d8e9d8484055fbb840ef44e346044f9b08ad5
 PATCH_DIR:=./patches/v20.x
-NODEJS_BIN_SUM:=8a4dbcdd8bccef3132d21e8543940557e55dcf44f00f0a99ba8a062f4552e722
+NODEJS_BIN_SUM:=eec2c7b9c6ac72e42885a42edfc0503c0e4ee455f855c4a17a6cbcf026656dd5
 NODE_MODULE_VERSION:=115
 else
-ifeq ($(CONFIG_NODEJS_18),y)
-PKG_VERSION:=18.20.8
+ifeq ($(CONFIG_NODEJS_24),y)
+PKG_VERSION:=24.1.0
 PKG_RELEASE:=1
-PKG_HASH:=ec60a6d2344ef9e1f093991ca1bb6bbe92c61c29d1762c4b99e08f87dbb91e2f
-PATCH_DIR:=./patches/v18.x
-NODEJS_BIN_SUM:=27a9f3f14d5e99ad05a07ed3524ba3ee92f8ff8b6db5ff80b00f9feb5ec8097a
-NODE_MODULE_VERSION:=108
+PKG_HASH:=b565cba1dd8f2eb3db7c95e0c3a87ecc5e77f079611ea6a3688531511383ec72
+PATCH_DIR:=./patches/v24.x
+NODEJS_BIN_SUM:=4d2beaa55d962c1b31d6a4663cc831087f79f83f304a066963b65c8f4495843f
+NODE_MODULE_VERSION:=137
 else
-ifeq ($(CONFIG_NODEJS_23),y)
-PKG_VERSION:=23.11.0
+PKG_VERSION:=22.16.0
 PKG_RELEASE:=1
-PKG_HASH:=0080beb9a481e2536543f70b59880093cb6c42470092efad8193563219efdc80
-PATCH_DIR:=./patches/v23.x
-NODEJS_BIN_SUM:=66f768a7f2d89ecdda8fe1e33ee71ac04ed9180111cbf1c5fb944655fe7c90c7
-NODE_MODULE_VERSION:=131
-else
-PKG_VERSION:=22.14.0
-PKG_RELEASE:=1
-PKG_HASH:=6c4e31ed5702dc45cfd8c435af56a36a474427e1bd7afe74c346136060beba8a
+PKG_HASH:=108f250ff79cc103b464b3ef41fa60f4866e4e6c962117171adaac7325ebdab2
 PATCH_DIR:=./patches/v22.x
-NODEJS_BIN_SUM:=9d942932535988091034dc94cc5f42b6dc8784d6366df3a36c4c9ccb3996f0c2
+NODEJS_BIN_SUM:=fb870226119d47378fa9c92c4535389c72dae14fcc7b47e6fdcc82c43de5a547
 NODE_MODULE_VERSION:=127
-endif
 endif
 endif
 
@@ -79,7 +70,7 @@ define Package/node/description
    package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
 
   *** The following preparations must be made on the host side. ***
-      1. gcc 10.1 or higher is required.
+      1. gcc 12.2 or higher is required.
       2. To build a 32-bit target, gcc-multilib, g++-multilib are required.
       3. Requires libatomic package. (If necessary, install the 32-bit library at the same time.)
      ex) sudo apt-get install gcc-multilib g++-multilib
@@ -103,13 +94,10 @@ define Package/node/config
 
 	choice
 		prompt "Version Selection"
-		default NODEJS_20
+		default NODEJS_22
 		help
 		 Select node.js version.
 		 The host package version is also the same.
-
-		config NODEJS_18
-			bool "18.x Maintenance LTS"
 
 		config NODEJS_20
 			bool "20.x Maintenance LTS"
@@ -117,8 +105,8 @@ define Package/node/config
 		config NODEJS_22
 			bool "22.x Active LTS"
 
-		config NODEJS_23
-			bool "23.x Current"
+		config NODEJS_24
+			bool "24.x Current"
 	endchoice
 
 	if PACKAGE_node
